@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title> VR Bridge </title>
+  <link rel="shortcut icon" href="{{url_for('static', filename='favico/wormhole.png')}}" type="image/x-icon" title="Wormhole icons created by Freepik - Flaticon" />
+</head>
+
+<script type="text/javascript" src="https://unpkg.com/web3@1.2.8/dist/web3.min.js"></script>
+<script src="{{url_for('static', filename='scripts/setup.js')}}"></script>
+<script src="{{url_for('static', filename='scripts/mint.js')}}"></script>
+
+<style>
+  button {
+    font-size: 150%;
+  }
+</style>
+
+<body onload="setup();" bgcolor="black">
+  <div align="center">
+    <h3><font size=15 color="white">Welcome to the VR Bridge!</font></h3>
+    <br><br>
+    <font color="white">Enter your previous Token URI:</font> &nbsp;
+    <input type="url" size=50 height="50" id="inputURI"></input> &nbsp;
+    <button onclick="mintH2H()">Mint!</button>
+    <br><br>
+  </div>
+</body>
+
+</html>
