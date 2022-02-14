@@ -4,11 +4,76 @@
 <head>
   <title> VR Bridge </title>
   <link rel="shortcut icon" href="{{url_for('static', filename='favico/wormhole.png')}}" type="image/x-icon" title="Wormhole icons created by Freepik - Flaticon" />
+  <style>
+  /* html, body {
+    align-items: center;
+    background-color: black;
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    margin: 0;
+  } */
+  
+  .loader {
+    width: 60px;
+  }
+  
+  .loader-wheel {
+    animation: spin 1s infinite linear;
+    border: 2px solid rgba(30, 30, 30, 0.5);
+    border-left: 4px solid #fff;
+    border-radius: 50%;
+    height: 50px;
+    margin-bottom: 10px;
+    width: 50px;
+  }
+  
+  .loader-text {
+    color: #fff;
+    font-family: arial, sans-serif;
+  }
+  
+  .loader-text:after {
+    content: 'Loading';
+    animation: load 2s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  
+  @keyframes load {
+    0% {
+      content: 'Loading';
+    }
+    33% {
+      content: 'Loading.';
+    }
+    67% {
+      content: 'Loading..';
+    }
+    100% {
+      content: 'Loading...';
+    }
+  }
+</style>
 </head>
 
 <script type="text/javascript" src="https://unpkg.com/web3@1.2.8/dist/web3.min.js"></script>
+<script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.js"></script>
+<script src="https://unpkg.com/@solana/spl-token@0.1.8/lib/index.iife.js"></script>
 <script src="{{url_for('static', filename='scripts/setup.js')}}"></script>
 <script src="{{url_for('static', filename='scripts/mint.js')}}"></script>
+<script src="{{url_for('static', filename='scripts/transaction.js')}}"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/@metaplex/js@4.12.0/lib/index.browser.esm.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/@solana/spl-token@0.1.8/module.flow.js"></script>  -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/@solana/spl-token@0.1.8/lib/index.cjs.min.js"></script> -->
+<!-- <script src="{{url_for('static', filename='scripts/metaplex-program-library/token-metadata/js/src/mpl-token-metadata.ts')}}"></script> -->
 
 <style>
   button {
@@ -18,12 +83,33 @@
 
 <body onload="setup();" bgcolor="black">
   <div align="center">
-    <h3><font size=15 color="white">Welcome to the VR Bridge!</font></h3>
+    <h3><font size=15 color="#7F00FF">Welcome to the VR Bridge!</font></h3>
     <br><br>
+    <button onclick="connectMetamask()">Connect MetaMask</button> &nbsp;  &nbsp;  &nbsp;
+    <button onclick="connectPhantom()">Connect Phantom</button>
+     <br><br>
+    <div class="loader" id="loadingwheel" hidden>
+      <div class="loader-wheel"></div>
+      <div class="loader-text"></div>
+    </div>
+    <br><br>
+    <font color="white">Select Solana Token to bridge:</font> &nbsp;
+    <select type="url" id="oldToken" onchange="updateImage()" disabled></select> &nbsp; &nbsp;
+    <button type="" onclick="viewToken()" id="viewButton" disabled>View Token Details</button> &nbsp; &nbsp;
+    <button type="" onclick="bridgeToken()" id="bridgeButton" disabled>Bridge</button> <br><br><br>
+    <div>
+      <img src="" style="width: 200px;height: 200px;" id="tokenImg" hidden>
+    </div>
+    <br><br>
+    <font color="white">Enter your Ethereum Token ID:</font> &nbsp;
+    <input type="url" size=50 height="50" id="ethTokenID"></input> &nbsp;
+    <button onclick="viewEthToken();">View Details</button>
+    <br><br>
+    <!-- <br><br>
     <font color="white">Enter your previous Token URI:</font> &nbsp;
     <input type="url" size=50 height="50" id="inputURI"></input> &nbsp;
     <button onclick="mintH2H()">Mint!</button>
-    <br><br>
+    <br><br> -->
   </div>
 </body>
 

@@ -27,4 +27,10 @@ contract HighwayToHellNFT is ERC721 {
         // require(_msgSender() == ERC721.ownerOf(tokenID));
         return _tokenURIs[tokenID];
     }
+
+    function numMinted() public view returns (uint256)  {
+        // require(_msgSender() == ERC721.ownerOf(tokenID));
+        return _tokenIds.current();
+    }
+
 }
