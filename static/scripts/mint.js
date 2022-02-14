@@ -86,7 +86,8 @@ async function viewToken() {
 }
 
 async function bridgeToken(cbFunction=()=>{}) {
-    tokenAddress = document.getElementById("oldTokenAddress").value
+    index = document.getElementById("oldToken").value
+    tokenAddress = window.tokenAddresses[index].toBase58()
     console.log(tokenAddress)
     tokenURI = await getTokenURI(tokenAddress)
     mintH2H(tokenURI);
