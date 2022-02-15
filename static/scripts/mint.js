@@ -88,7 +88,14 @@ async function viewToken() {
 async function bridgeToken(cbFunction=()=>{}) {
     index = document.getElementById("oldToken").value
     tokenAddress = window.tokenAddresses[index].toBase58()
+    console.log(tokenAddress, window.tokens[index].pubkey.toBase58(), window.solana.publicKey.toBase58())
+    await burnToken(window.tokenAddresses[index], window.tokens[index].pubkey, window.solana.publicKey, 1)
     console.log(tokenAddress)
     tokenURI = await getTokenURI(tokenAddress)
     mintH2H(tokenURI);
+}
+
+async function transferH2H(sender, receiver, tokenID, cbFunction=()=>{}) {
+    const request = window.currentContract.methods.safeTransferFrom(sender, receiver, tokenID).encodeABI()
+    callContractFunction(request, window.contractAddress)
 }
