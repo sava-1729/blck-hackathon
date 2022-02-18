@@ -31,8 +31,6 @@ async function callContractFunction(abiEncodedRequest, contractAddress, cbFuncti
             // The result varies by method, per the RPC method specification
             // For example, this method will return a transaction hash on success.
             console.log("Tx Hash: ", response.result);
-            alert("Congrats! Your Token has been bridged!! \n Please note your Token ID: "+ String(window.currentTokenID+1)+ "\n And keep it safe :)");
-            updateTokenID();
           }
         }
       );
@@ -43,56 +41,38 @@ async function updateTokenID() {
 }
 
 async function mintH2H(tokenURI=undefined, cbFunction=()=>{}) {
+    await updateTokenID();
     if (tokenURI == undefined) {
         tokenURI = document.getElementById("inputURI").value
     }
     console.log(tokenURI)
-    const request = window.currentContract.methods.getBridgedNFT(tokenURI).encodeABI()
-    callContractFunction(request, window.contractAddress)
+    const request = window.currentContract.methods.mint(tokenURI).encodeABI()
+    callContractFunction(request, window.contractAddress).then((result)=> {
+        alert("Congrats! Your Token has been bridged!! \n Please note your Token ID: " + String(window.currentTokenID+1) + "\n And the contract address: " + window.contractAddress + "\n Keep both these details safe :)");
+        updateTokenID();
+    });
 }
 
-async function getTokenJSON(tokenAddress=undefined, cbFunction=()=>{}) {
-    var request = new XMLHttpRequest()
-    request.open("GET", "/blockchainapi/"+tokenAddress, false)
-    request.send(null)
-    userTokenJSON = JSON.parse(request.responseText)
-    if (userTokenJSON.data == undefined) {
-        return tokenAddress
-    }
-    // window.open(userTokenURI.data.uri)
-    return userTokenJSON
-}
-
-async function getTokenURI(tokenAddress=undefined, cbFunction=()=>{}) {
-    tokenJSON = await getTokenJSON(tokenAddress)
-    console.log(tokenJSON)
-    if (tokenJSON.data == undefined) {
-        return tokenAddress
-    }
-    return tokenJSON.data.uri
-}
-
-async function viewToken() {
-    index = document.getElementById("oldToken").value
-    tokenAddress = window.tokenAddresses[index].toBase58()
-    tokenURI = await getTokenURI(tokenAddress)
-
-    if (tokenURI.substring(0, 4) == "http") {
-        open(tokenURI);
-    }
-    else {
-        open("https://solscan.io/address/"+window.tokens[index].pubkey.toBase58()+"?cluster=devnet")
-    }
-}
+async function burnSPLToken(tokenAddress, tokenAccountAddress, ownerPubKey, amount, cbFunction=()=>{}) {
+	console.log("Burn called")
+	burn_instrc = splToken.Token.createBurnInstruction(splToken.TOKEN_PROGRAM_ID, tokenAddress, tokenAccountAddress, ownerPubKey, [], amount)
+	console.log("burn instr created")
+	var transaction = new solanaWeb3.Transaction().add(burn_instrc)
+	console.log("added to tx obj")
+	transaction.recentBlockhash = (await web3_solana.getRecentBlockhash()).blockhash
+	transaction.feePayer = solana.publicKey;
+	var signature = await solana.signAndSendTransaction(transaction)
+	console.log(signature)
+};
 
 async function bridgeToken(cbFunction=()=>{}) {
-    index = document.getElementById("oldToken").value
-    tokenAddress = window.tokenAddresses[index].toBase58()
-    console.log(tokenAddress, window.tokens[index].pubkey.toBase58(), window.solana.publicKey.toBase58())
-    await burnToken(window.tokenAddresses[index], window.tokens[index].pubkey, window.solana.publicKey, 1)
-    console.log(tokenAddress)
-    tokenURI = await getTokenURI(tokenAddress)
-    mintH2H(tokenURI);
+    tokenAccountAddress = document.getElementById("oldToken").value
+	console.log(tokenAccountAddress)
+	tokenAccountAddressObj = new solanaWeb3.PublicKey(tokenAccountAddress)
+    tokenAddress = window.tokenAddresses[tokenAccountAddress]
+    await burnSPLToken(tokenAddress, tokenAccountAddressObj, window.solana.publicKey, 1)
+    tokenURI = window.tokenURIs[tokenAccountAddress]
+    await mintH2H(tokenURI);
 }
 
 async function transferH2H(sender, receiver, tokenID, cbFunction=()=>{}) {

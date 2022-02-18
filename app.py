@@ -13,13 +13,21 @@ app = Flask(__name__)
 
 # assert "contractAddress" in os.environ, "Contract not deployed yet!"
 
-CONTRACT_ADDRESS = "0x333D6558f6E48910D7fF23be033227D8CAbF44f5" # os.environ["contractAddress"] #v1.3.1
+CONTRACT_ADDRESS = "0x10F7c9D400ea1C95FBFE20d2D8e0C3f09039b2AF" # os.environ["contractAddress"] #v1.3.1
 ETH_ADDRESS_LENGTH = 42
 CURRENT_USER = ""
 
 @app.route("/", methods = ["POST", "GET"])
 def home():
     return render_template("home.html")
+
+@app.route("/avalanche-to-ethereum", methods = ["POST", "GET"])
+def ava_to_eth():
+    return render_template("solana-to-ethereum.html")
+
+@app.route("/solana-to-ethereum", methods = ["POST", "GET"])
+def sol_to_eth():
+    return render_template("solana-to-ethereum.html")
 
 @app.route("/contract_address", methods = ["GET"])
 def get_contract_address():
@@ -63,8 +71,8 @@ def get_theblockchainapi(pub_key):
             'network': 'devnet'
         },
         headers={
-            'APISecretKey': 'nzCf8FGjrvRgMdW',
-            'APIKeyId': '5X91dfRCulG4arT'
+            'APISecretKey': 'tt7Ev6E062jObYK',
+            'APIKeyId': 'FbiqdlAC5YG6WVJ'
         }
     )
     print("----------------------------------------------")

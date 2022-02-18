@@ -1,14 +1,4 @@
-// import * as web3 from '@solana/web3.js';
-// import * as splToken from '@solana/spl-token';
 
-async function burnToken(tokenAddress, tokenAccountAddress, ownerPubKey, amount, cbFunction=()=>{}) {
-	burn_instrc = splToken.Token.createBurnInstruction(splToken.TOKEN_PROGRAM_ID, tokenAddress, tokenAccountAddress, ownerPubKey, [], amount)
-	var transaction = new solanaWeb3.Transaction().add(burn_instrc)
-  	transaction.recentBlockhash = (await web3_solana.getRecentBlockhash()).blockhash
-	transaction.feePayer = solana.publicKey;
-	var signature = await solana.signAndSendTransaction(transaction)
-	console.log(signature)
-};
 
 
 async function transferSPLToken(receiverAddress, amount, tokenAddress) {
