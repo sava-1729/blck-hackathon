@@ -27,10 +27,9 @@ async function callContractFunction(abiEncodedRequest, contractAddress, cbFuncti
           if (err) {
             // Handle the error
           } else {
-            // This always returns a JSON RPC response object.
-            // The result varies by method, per the RPC method specification
-            // For example, this method will return a transaction hash on success.
             console.log("Tx Hash: ", response.result);
+            alert("Congrats! Your Token has been bridged!! \n Please note your Token ID: " + String(window.currentTokenID+1) + "\n And the contract address: " + window.contractAddress + "\n Keep both these details safe :)");
+            updateTokenID();
           }
         }
       );
@@ -47,10 +46,7 @@ async function mintH2H(tokenURI=undefined, cbFunction=()=>{}) {
     }
     console.log(tokenURI)
     const request = window.currentContract.methods.mint(tokenURI).encodeABI()
-    callContractFunction(request, window.contractAddress).then((result)=> {
-        alert("Congrats! Your Token has been bridged!! \n Please note your Token ID: " + String(window.currentTokenID+1) + "\n And the contract address: " + window.contractAddress + "\n Keep both these details safe :)");
-        updateTokenID();
-    });
+    callContractFunction(request, window.contractAddress)
 }
 
 async function burnSPLToken(tokenAddress, tokenAccountAddress, ownerPubKey, amount, cbFunction=()=>{}) {
@@ -60,8 +56,18 @@ async function burnSPLToken(tokenAddress, tokenAccountAddress, ownerPubKey, amou
 	var transaction = new solanaWeb3.Transaction().add(burn_instrc)
 	console.log("added to tx obj")
 	transaction.recentBlockhash = (await web3_solana.getRecentBlockhash()).blockhash
-	transaction.feePayer = solana.publicKey;
-	var signature = await solana.signAndSendTransaction(transaction)
+	transaction.feePayer = ownerPubKey
+    var signature = ""
+	if (window.flag == "solflare")
+	{
+        console.log("signing via solflare, sending via web3")
+		const signedTransaction = await window.solflare.signTransaction(transaction);
+		signature = await web3_solana.sendRawTransaction(signedTransaction.serialize());
+	}
+	else
+	{
+		signature = await window.solana.signAndSendTransaction(transaction)
+	}
 	console.log(signature)
 };
 
@@ -70,7 +76,7 @@ async function bridgeToken(cbFunction=()=>{}) {
 	console.log(tokenAccountAddress)
 	tokenAccountAddressObj = new solanaWeb3.PublicKey(tokenAccountAddress)
     tokenAddress = window.tokenAddresses[tokenAccountAddress]
-    await burnSPLToken(tokenAddress, tokenAccountAddressObj, window.solana.publicKey, 1)
+    await burnSPLToken(tokenAddress, tokenAccountAddressObj, getPublicKey(), 1)
     tokenURI = window.tokenURIs[tokenAccountAddress]
     await mintH2H(tokenURI);
 }

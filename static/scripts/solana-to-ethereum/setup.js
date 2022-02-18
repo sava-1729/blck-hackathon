@@ -12,8 +12,17 @@ function setup()
     console.log("SETUP COMPLETE.")
 }
 
+function showTokenDetails(arg) {
+    document.getElementById("loadingwheel").hidden = true;
+    document.getElementById("oldToken").disabled = false;
+    document.getElementById("viewButton").disabled = false;
+    document.getElementById("bridgeButton").disabled = false;
+    updateImage().then((out)=>{ console.log("Hello"); document.getElementById("tokenImg").hidden = false;});
+}
+
 async function connectPhantom()
 {
+    window.flag = "phantom"
     console.log("Phantom connecting!")
     document.getElementById("loadingwheel").hidden = false
     try {
@@ -22,17 +31,15 @@ async function connectPhantom()
         alert("Please connect your Phantom wallet to bridge tokens.")
         return false
     }
-    loadTokenDetails().then((out)=>{
-        document.getElementById("loadingwheel").hidden = true;
-        document.getElementById("oldToken").disabled = false;
-        document.getElementById("viewButton").disabled = false;
-        document.getElementById("bridgeButton").disabled = false;
-        updateImage().then((out)=>{ console.log("Hello"); document.getElementById("tokenImg").hidden = false;});
-    })
+    loadTokenDetails().then(showTokenDetails)
 }
 
 async function connectMetamask()
 {
+    await window.ethereum.request({
+        method: 'wallet_switchEthereumChain',
+        params: [{ chainId: '0x3' }], // chainId must be in hexadecimal numbers
+    });
     const resp = await ethereum.request({method:'eth_accounts'})
     if (resp[0] == undefined) {
         // alert("Please connect your MetaMask wallet in order to bridge your NFT!")
@@ -40,8 +47,35 @@ async function connectMetamask()
     }
 }
 
+async function connectSolflare()
+{
+    window.flag = "solflare"
+    console.log("Solflare connecting!")
+    document.getElementById("loadingwheel").hidden = false
+    try {
+        const resp = await window.solflare.connect();
+        window.solflare.on("connect", () => console.log("connected!"));
+    } catch (err) {
+        alert("Please connect your Solflare wallet to bridge tokens.")
+        return false
+    }
+    loadTokenDetails().then(showTokenDetails)
+}
+
 async function viewEthToken() {
     tokenID = Number(document.getElementById("ethTokenID").value)
     uri = await window.currentContract.methods.tokenURI(tokenID).call();
     open(uri);
+}
+
+function getPublicKey()
+{
+    if (window.flag == "solflare")
+    {
+        return window.solflare.publicKey
+    }
+    else
+    {
+        return window.solana.publicKey
+    }
 }

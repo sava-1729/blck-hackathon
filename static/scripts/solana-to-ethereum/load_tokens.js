@@ -1,6 +1,6 @@
 async function getTokenAddresses()
 {
-    window.tokens = (await web3_solana.getTokenAccountsByOwner(solana.publicKey, {"programId": splToken.TOKEN_PROGRAM_ID})).value
+    window.tokens = (await web3_solana.getTokenAccountsByOwner(getPublicKey(), {"programId": splToken.TOKEN_PROGRAM_ID})).value
     // console.log(window.tokens)
     window.tokenAccountAddresses = []
     window.tokenAddresses = {}
@@ -20,7 +20,7 @@ async function getTokenAddresses()
 }
 
 async function getTokenMetadata() {
-    return (await metaplex.programs.metadata.Metadata.findByOwnerV2(web3_solana, solana.publicKey))
+    return (await metaplex.programs.metadata.Metadata.findByOwnerV2(web3_solana, getPublicKey()))
 }
 
 async function getTokenJSON(tokenAddress=undefined, cbFunction=()=>{}) {
