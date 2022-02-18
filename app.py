@@ -63,8 +63,8 @@ def get_theblockchainapi(pub_key):
             'network': 'devnet'
         },
         headers={
-            'APISecretKey': 'nzCf8FGjrvRgMdW',
-            'APIKeyId': '5X91dfRCulG4arT'
+            'APISecretKey': 'tt7Ev6E062jObYK',
+            'APIKeyId': 'FbiqdlAC5YG6WVJ'
         }
     )
     print("----------------------------------------------")

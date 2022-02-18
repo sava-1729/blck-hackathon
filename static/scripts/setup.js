@@ -1,3 +1,15 @@
+function get_pubKey()
+{
+    if (window.flag == "solflare")
+    {
+        return window.solflare.publicKey
+    }
+    else
+    {
+        return window.solana.publicKey
+    }
+}
+
 function setup()
 {
     var request = new XMLHttpRequest()
@@ -58,6 +70,8 @@ async function loadTokenDetails() {
 
 async function connectPhantom()
 {
+    window.flag = "phantom"
+    console.log("phantom")
     document.getElementById("loadingwheel").hidden = false
     try {
         const resp = await window.solana.connect();
@@ -78,9 +92,33 @@ async function connectPhantom()
     })
 }
 
+async function connectSolflare()
+{
+    window.flag = "solflare"
+    console.log("solflare")
+    document.getElementById("loadingwheel").hidden = false
+    try {
+        const resp = await window.solflare.connect();
+        window.solflare.on("connect", () => console.log("connected!"));
+        // 26qv4GCcx98RihuK3c4T6ozB3J7L6VwCuFVc7Ta2A3Uo 
+    } catch (err) {
+        alert("Please connect your Solflare wallet to bridge tokens.")
+        return false
+        // { code: 4001, message: 'User rejected the request.' }
+    }
+    loadTokenDetails().then((out)=>{
+        document.getElementById("loadingwheel").hidden = true;
+        document.getElementById("oldToken").disabled = false;
+        document.getElementById("viewButton").disabled = false;
+        document.getElementById("bridgeButton").disabled = false;
+        updateImage().then((out)=>{ console.log("Hello"); document.getElementById("tokenImg").hidden = false;});
+    })
+}
+
 async function getTokenAddresses()
 {
-    window.tokens = (await web3_solana.getTokenAccountsByOwner(solana.publicKey, {"programId": window.spl_program_id})).value
+	publicKey = get_pubKey()
+    window.tokens = (await web3_solana.getTokenAccountsByOwner(publicKey, {"programId": window.spl_program_id})).value
     // console.log(window.tokens)
     window.tokenAddresses = []
     window.tokenAccountInfo = []
