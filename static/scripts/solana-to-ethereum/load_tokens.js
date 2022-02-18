@@ -107,6 +107,7 @@ async function updateImage() {
     else {
         document.getElementById("tokenImg").src = "static/favico/solana.jpg"
     }
+    document.getElementById("bridge").style.visibility="visible";
 }
 
 function removeOptions(selectElement) {

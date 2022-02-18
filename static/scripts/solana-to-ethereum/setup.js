@@ -11,13 +11,29 @@ function setup()
     });
     console.log("SETUP COMPLETE.")
 }
-
+function showETHTokenInput(){
+    document.getElementById("ETHDetails").style.display=
+    document.getElementById("ETHDetails").style.display=="block"? "none":"block";
+}
 function showTokenDetails(arg) {
     document.getElementById("loadingwheel").hidden = true;
     document.getElementById("oldToken").disabled = false;
     document.getElementById("viewButton").disabled = false;
     document.getElementById("bridgeButton").disabled = false;
     updateImage().then((out)=>{ console.log("Hello"); document.getElementById("tokenImg").hidden = false;});
+}
+
+async function showSolanaWallets() {
+
+    document.getElementById("solana-wallets").style.visibility = "visible";
+    document.getElementById("avax-wallets").style.visibility = "hidden";
+    document.getElementById('dropdownMenuLink').innerHTML = "Solana → Ethereum";
+}
+async function showAVAXWallets() {
+    
+    document.getElementById("solana-wallets").style.visibility = "hidden";
+    document.getElementById("avax-wallets").style.visibility = "visible";
+    document.getElementById('dropdownMenuLink').innerHTML = "AVAX → Ethereum";
 }
 
 async function connectPhantom()
@@ -64,8 +80,20 @@ async function connectSolflare()
 
 async function viewEthToken() {
     tokenID = Number(document.getElementById("ethTokenID").value)
-    uri = await window.currentContract.methods.tokenURI(tokenID).call();
-    open(uri);
+    if(!tokenID){
+        alert("Please enter a valid token ID!");
+    }
+    else{
+        uri = await window.currentContract.methods.tokenURI(tokenID).call();
+        console.log(uri,"URI");
+        if(!uri){
+            alert("Please enter a valid token ID!");
+        }
+        else{
+            open(uri);
+        }
+    }
+    
 }
 
 function getPublicKey()
