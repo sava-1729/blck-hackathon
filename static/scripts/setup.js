@@ -20,7 +20,7 @@ function setup()
 
 async function connectMetamask()
 {
-    const resp = await ethereum.request({method:'eth_accounts'})
+    const resp = await web3_ethereum.request({method:'eth_accounts'})
     const userPubKey = resp[0]
     if (userPubKey == undefined) {
         // alert("Please connect your MetaMask wallet in order to bridge your NFT!")
@@ -28,6 +28,18 @@ async function connectMetamask()
     }
 }
 
+async function showSolanaWallets() {
+
+    document.getElementById("solana-wallets").style.display = "block";
+    document.getElementById("avax-wallets").style.display = "none";
+    document.getElementById('dropdownMenuLink').innerHTML = "Solana → Ethereum";
+}
+async function showAVAXWallets() {
+    
+    document.getElementById("solana-wallets").style.display = "none";
+    document.getElementById("avax-wallets").style.display = "block";
+    document.getElementById('dropdownMenuLink').innerHTML = "AVAX → Ethereum";
+}
 async function loadTokenDetails() {
     window.tokenAddresses = await getTokenAddresses();
     tokenJSONs = []

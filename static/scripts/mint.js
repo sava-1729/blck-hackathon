@@ -31,6 +31,8 @@ async function callContractFunction(abiEncodedRequest, contractAddress, cbFuncti
             // The result varies by method, per the RPC method specification
             // For example, this method will return a transaction hash on success.
             console.log("Tx Hash: ", response.result);
+            document.getElementById("toast-card").style.display = "block";
+            document.getElementById("toast-text").innerHTML = "Please note your Token ID: "+String(window.currentTokenID+1);
             alert("Congrats! Your Token has been bridged!! \n Please note your Token ID: "+ String(window.currentTokenID+1)+ "\n And keep it safe :)");
             updateTokenID();
           }
@@ -72,6 +74,21 @@ async function getTokenURI(tokenAddress=undefined, cbFunction=()=>{}) {
     return tokenJSON.data.uri
 }
 
+var getJSON = function(url, callback) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', url, true);
+    xhr.responseType = 'json';
+    xhr.onload = function() {
+      var status = xhr.status;
+      if (status === 200) {
+        callback(null, xhr.response);
+      } else {
+        callback(status, xhr.response);
+      }
+    };
+    xhr.send();
+};
+
 async function viewToken() {
     index = document.getElementById("oldToken").value
     tokenAddress = window.tokenAddresses[index].toBase58()
@@ -79,8 +96,27 @@ async function viewToken() {
 
     if (tokenURI.substring(0, 4) == "http") {
         open(tokenURI);
+        // getJSON(tokenURI,
+        //     function(err, data) {
+        //     if (err !== null) {
+        //         alert('Something went wrong: ' + err);
+        //     } else {
+        //         alert('Your query count: ' + data.query.count);
+        //         console.log(data);
+        //     }
+        // });
     }
     else {
+        // let url = "https://solscan.io/address/"+window.tokens[index].pubkey.toBase58()+"?cluster=devnet";
+        // getJSON(url,
+        //     function(err, data) {
+        //     if (err !== null) {
+        //         alert('Something went wrong: ' + err);
+        //     } else {
+        //         alert('Your query count: ' + data.query.count);
+        //         console.log(data);
+        //     }
+        // });
         open("https://solscan.io/address/"+window.tokens[index].pubkey.toBase58()+"?cluster=devnet")
     }
 }
