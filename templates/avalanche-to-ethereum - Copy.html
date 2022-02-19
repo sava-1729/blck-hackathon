@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title> Highway to Hell | Avalanche to Ethereum </title>
+	<link rel="shortcut icon" href="{{url_for('static', filename='favico/wormhole.png')}}" type="image/x-icon" title="Wormhole icons created by Freepik - Flaticon" />
+	<style>
+
+	.loader {
+		width: 60px;
+	}
+
+	.loader-wheel {
+		animation: spin 1s infinite linear;
+		border: 2px solid rgba(30, 30, 30, 0.5);
+		border-left: 4px solid #fff;
+		border-radius: 50%;
+		height: 50px;
+		margin-bottom: 10px;
+		width: 50px;
+	}
+	
+	.loader-text {
+		color: #fff;
+		font-family: arial, sans-serif;
+	}
+	
+	.loader-text:after {
+		content: 'Loading';
+		animation: load 2s linear infinite;
+	}
+	
+	@keyframes spin {
+		0% {
+			transform: rotate(0deg);
+		}
+		100% {
+			transform: rotate(360deg);
+		}
+	}
+	
+	@keyframes load {
+		0% {
+			content: 'Loading';
+		}
+		33% {
+			content: 'Loading.';
+		}
+		67% {
+			content: 'Loading..';
+		}
+		100% {
+			content: 'Loading...';
+		}
+	}
+	button {
+		font-size: 150%;
+	}
+</style>
+</head>
+
+<script type="text/javascript" src="https://unpkg.com/web3@1.2.8/dist/web3.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="{{url_for('static', filename='scripts/avalanche-to-ethereum/setup.js')}}"></script>
+<script src="{{url_for('static', filename='scripts/avalanche-to-ethereum/load_tokens.js')}}"></script>
+<script src="{{url_for('static', filename='scripts/avalanche-to-ethereum/bridge.js')}}"></script>
+
+<script>
+	window.built_H2H = false;
+	window.built_S2H = false;
+</script>
+
+
+<body bgcolor="black">
+	<div align="center">
+		<h3><font size=15 color="red">Welcome to the Highway to Hell!</font></h3>
+		<br><br>
+		<button onclick="setup()">Connect Metamask</button>
+		<br><br>
+		<font color="white">Please enter the contract address of your Avalanche token:</font> &nbsp; &nbsp;
+		<input id="oldTokenAddress" type="text" disabled> &nbsp; &nbsp;
+		<button onclick="getUserContractABI()">Search Tokens</button> &nbsp; &nbsp;
+		<br><br>
+		<div class="loader" id="loadingwheel" hidden>
+			<div class="loader-wheel"></div>
+			<div class="loader-text"></div>
+		</div>
+		<br><br>
+		<font color="white">Select Solana Token to bridge:</font> &nbsp;
+		<select type="url" id="oldToken" onchange="updateImage()" disabled></select> &nbsp; &nbsp;
+		<button type="" onclick="viewToken()" id="viewButton" disabled>View Token Details</button> &nbsp; &nbsp;
+		<button type="" onclick="bridgeToken1()" id="bridgeButton" disabled>Bridge (step 1)</button> <br><br><br>
+		<div>
+			<img src="" style="width: 200px;height: 200px;" id="tokenImg" hidden>
+		</div>
+		<br><br>
+		<font color="white">Enter your Ethereum Token ID:</font> &nbsp;
+		<input type="url" size=50 height="50" id="ethTokenID"></input> &nbsp;
+		<button onclick="viewEthToken();">View Details</button>
+		<br><br>
+		<!-- <br><br>
+		<font color="white">Enter your previous Token URI:</font> &nbsp;
+		<input type="url" size=50 height="50" id="inputURI"></input> &nbsp;
+		<button onclick="mintH2H()">Mint!</button>
+		<br><br> -->
+	</div>
+</body>
+
+</html>

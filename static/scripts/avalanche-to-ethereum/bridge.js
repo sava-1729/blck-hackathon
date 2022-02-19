@@ -1,4 +1,4 @@
-async function callContractFunction(abiEncodedRequest, contractAddress, web3Obj, flag, cbFunction=()=>{}) {
+async function callContractFunction_ava(abiEncodedRequest, contractAddress, web3Obj, flag, cbFunction=()=>{}) {
     const userPubKey = ethereum.selectedAddress
     const txCount = await web3Obj.eth.getTransactionCount(userPubKey)
     const gasPrice = await web3Obj.eth.getGasPrice()
@@ -27,6 +27,7 @@ async function callContractFunction(abiEncodedRequest, contractAddress, web3Obj,
                     document.getElementById("bridgeButton").innerHTML = "Bridge (step 1)"
                     document.getElementById("bridgeButton").onclick = bridgeToken1
                     alert("Congrats! Your Token has been bridged!! \n Please note your Token ID: " + String(window.currentTokenID+1) + "\n And the contract address: " + window.contractAddress_H2H + "\n Keep both these details safe :)");
+                    document.getElementById("bridgedTokenDetailsButton").hidden = false;
 				} else {
 					document.getElementById("bridgeButton").innerHTML = "Bridge (step 2)";
                     document.getElementById("bridgeButton").onclick = bridgeToken2;
@@ -43,7 +44,7 @@ async function updateTokenID() {
 async function mintH2H(tokenURI=undefined, cbFunction=()=>{}) {
     console.log(tokenURI)
     const request = window.currentContract_H2H.methods.mint(tokenURI).encodeABI()
-    return (await callContractFunction(request, window.contractAddress_H2H, window.web3_ethereum, "mint"));
+    return (await callContractFunction_ava(request, window.contractAddress_H2H, window.web3_ethereum, "mint"));
 }
 
 async function mintS2H(tokenURI=undefined, cbFunction=()=>{}) {
@@ -52,7 +53,7 @@ async function mintS2H(tokenURI=undefined, cbFunction=()=>{}) {
     }
     console.log(tokenURI)
     const request = window.currentContract_S2H.methods.mint(tokenURI).encodeABI()
-    callContractFunction(request, window.contractAddress_S2H, window.web3_avalanche, "mint")
+    callContractFunction_ava(request, window.contractAddress_S2H, window.web3_avalanche, "mint")
 }
 
 async function burnAvaToken(tokenID, cbFunction=()=>{}) {
@@ -65,7 +66,7 @@ async function burnAvaToken(tokenID, cbFunction=()=>{}) {
         return false;
     }
     const request = window.currentContract_S2H.methods.burn(tokenID).encodeABI()
-    return (await callContractFunction(request, window.contractAddress_S2H, window.web3_avalanche, "burn"))
+    return (await callContractFunction_ava(request, window.contractAddress_S2H, window.web3_avalanche, "burn"))
 };
 
 async function bridgeToken1(cbFunction=()=>{}) {

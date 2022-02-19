@@ -7,6 +7,7 @@ body {
 .content {
   position: absolute;
   top: 20%;
+  margin-top:2vh;
   left: 50%;
   transform: translate(-50%, -50%);
   height: 160px;

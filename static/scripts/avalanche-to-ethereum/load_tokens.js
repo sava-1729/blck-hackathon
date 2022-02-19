@@ -93,6 +93,7 @@ async function viewToken() {
 
 async function updateImage() {
     console.log("Updating image")
+    document.getElementById("bridgeButton").style.visibility = "visible";
     tokenID = document.getElementById("oldToken").value
     if (window.tokenJSONs[tokenID].image != undefined) {
         document.getElementById("tokenImg").src = window.tokenJSONs[tokenID].image
