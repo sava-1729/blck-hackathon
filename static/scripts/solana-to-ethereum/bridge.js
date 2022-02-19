@@ -28,7 +28,10 @@ async function callContractFunction(abiEncodedRequest, contractAddress, cbFuncti
             // Handle the error
           } else {
             console.log("Tx Hash: ", response.result);
-            alert("Congrats! Your Token has been bridged!! \n Please note your Token ID: " + String(window.currentTokenID+1) + "\n And the contract address: " + window.contractAddress + "\n Keep both these details safe :)");
+            document.getElementById("toast-card").style.display = "block";
+            document.getElementById("toast-text").innerHTML = "Please note your Token ID: "+String(window.currentTokenID+1)+ "\n And the contract address: " + window.contractAddress + "\n Keep both these details safe :)";
+            // alert("Congrats! Your Token has been bridged!! \n Please note your Token ID: "+ String(window.currentTokenID+1)+ "\n And keep it safe :)");
+            // alert("Congrats! Your Token has been bridged!! \n Please note your Token ID: " + String(window.currentTokenID+1) + "\n And the contract address: " + window.contractAddress + "\n Keep both these details safe :)");
             updateTokenID();
           }
         }
