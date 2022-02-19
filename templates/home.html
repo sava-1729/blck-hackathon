@@ -79,19 +79,6 @@
 });
 </script>
 
-<script type="text/javascript" src="https://unpkg.com/web3@1.2.8/dist/web3.min.js"></script>
-<script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.js"></script>
-<script src="https://unpkg.com/@solana/spl-token@0.1.8/lib/index.iife.js"></script>
-<script src="https://unpkg.com/@metaplex/js@4.12.0/lib/index.iife.min.js"></script>
-<script src="https://unpkg.com/moralis/dist/moralis.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="{{url_for('static', filename='scripts/solana-to-ethereum/setup.js')}}"></script>
-<script src="{{url_for('static', filename='scripts/solana-to-ethereum/load_tokens.js')}}"></script>
-<script src="{{url_for('static', filename='scripts/solana-to-ethereum/bridge.js')}}"></script>
-<script src="{{url_for('static', filename='scripts/avalanche-to-ethereum/setup.js')}}"></script>
-<script src="{{url_for('static', filename='scripts/avalanche-to-ethereum/load_tokens.js')}}"></script>
-<script src="{{url_for('static', filename='scripts/avalanche-to-ethereum/bridge.js')}}"></script>
-
 <style>
 	body{
 		  overflow: visible;
@@ -175,7 +162,7 @@
 	  </div>
 	</div>
 	<div>
-	<div id="avax-wallets" style="visibility: hidden;">
+	<!-- <div id="avax-wallets" style="visibility: hidden;">
 		<button class="btn" onclick="connectMetamask()">Connect MetaMask</button> &nbsp;  &nbsp;  &nbsp;
 	</div>
 	<div id="solana-wallets" style="visibility: hidden; position: absolute; margin-left: 3vw;">
@@ -185,16 +172,16 @@
 		<br> 
 		
 		<h3 class="t" style="margin-top: -1vh; margin-bottom: 1vh;"> AND </h3>
-		<button class="btn" onclick="connectMetamask()">Connect MetaMask</button>
-		
+		<button class="btn" onclick="connectMetamask()">Connect MetaMask</button> -->
+<!-- 		
 	</div>
 	</div>
 		 <br><br>
 		<div class="loader" id="loadingwheel" hidden>
 			<div class="loader-wheel"></div>
 			<div class="loader-text"></div>
-		</div>
-		<br><br>
+		</div> -->
+		<!-- <br><br> -->
 		<!-- <div style="position: relative; margin-top:10vh">
 		<font class="t" style="font-size: 2vh;">Select token:</font> &nbsp;
 		<select type="url" id="oldToken" onchange="updateImage()" disabled></select> &nbsp; &nbsp;
@@ -212,18 +199,18 @@
 			<img src="" style="width: 200px;height: 200px;" id="tokenImg" hidden>
 		</div> -->
 		
-		<button class="btn" onclick='showETHTokenInput()'>View ETH Token Details</button>
+		<!-- <button class="btn" onclick='showETHTokenInput()'>View ETH Token Details</button>
 		<div id="ETHDetails" style="display: none;">
 		<input type="url" placeholder="Enter your Ethereum Token ID" id="ethTokenID"></input> &nbsp;
 		<button style="background-color: #0492C2;text-align: center; color:white; font-size:20px; padding: 4px" onclick="viewEthToken();">View Details</button>
 		</div>
-		<br><br>
+		<br><br> -->
 		<!-- <br><br>
 		<font color="white">Enter your previous Token URI:</font> &nbsp;
 		<input type="url" size=50 height="50" id="inputURI"></input> &nbsp;
 		<button onclick="mintH2H()">Mint!</button>
 		<br><br> -->
-		<div class="toast" id="toast-card" >
+		<!-- <div class="toast" id="toast-card" >
 		  <div class="toast-header me-auto">
 		    Bridging successful!
 		    <button id="close" type="button" class="btn-close" data-bs-dismiss="toast"></button>
@@ -231,7 +218,7 @@
 		  <div class="toast-body" id="toast-text">
 		    
 		  </div>
-		</div>
+		</div> -->
 	</div>
 	</div>
 </body>
