@@ -23,7 +23,7 @@ def home():
 
 @app.route("/avalanche-to-ethereum", methods = ["POST", "GET"])
 def ava_to_eth():
-    return render_template("solana-to-ethereum.html")
+    return render_template("avalanche-to-ethereum.html")
 
 @app.route("/solana-to-ethereum", methods = ["POST", "GET"])
 def sol_to_eth():
