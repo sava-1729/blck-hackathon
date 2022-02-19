@@ -1,4 +1,4 @@
-async function callContractFunction(abiEncodedRequest, contractAddress, cbFunction=()=>{}) {
+async function callContractFunction_sol(abiEncodedRequest, contractAddress, cbFunction=()=>{}) {
     const resp = await ethereum.request({method:'eth_accounts'})
     const userPubKey = resp[0]
     if (userPubKey == undefined) {
@@ -29,7 +29,8 @@ async function callContractFunction(abiEncodedRequest, contractAddress, cbFuncti
           } else {
             console.log("Tx Hash: ", response.result);
             document.getElementById("toast-card").style.display = "block";
-            document.getElementById("toast-text").innerHTML = "Please note your Token ID: "+String(window.currentTokenID+1)+ "\n And the contract address: " + window.contractAddress + "\n Keep both these details safe :)";
+            document.getElementById("toast-text").innerHTML = "Please note your Token ID: "+String(window.currentTokenID+1)+ ", and the contract address: " + window.contractAddress + "\n Keep both these details safe :)";
+            document.getElementById("bridgedTokenDetailsButton").hidden = false;
             // alert("Congrats! Your Token has been bridged!! \n Please note your Token ID: "+ String(window.currentTokenID+1)+ "\n And keep it safe :)");
             // alert("Congrats! Your Token has been bridged!! \n Please note your Token ID: " + String(window.currentTokenID+1) + "\n And the contract address: " + window.contractAddress + "\n Keep both these details safe :)");
             updateTokenID();
@@ -49,7 +50,7 @@ async function mintH2H(tokenURI=undefined, cbFunction=()=>{}) {
     }
     console.log(tokenURI)
     const request = window.currentContract.methods.mint(tokenURI).encodeABI()
-    callContractFunction(request, window.contractAddress)
+    callContractFunction_sol(request, window.contractAddress)
 }
 
 async function burnSPLToken(tokenAddress, tokenAccountAddress, ownerPubKey, amount, cbFunction=()=>{}) {
@@ -86,5 +87,5 @@ async function bridgeToken(cbFunction=()=>{}) {
 
 async function transferH2H(sender, receiver, tokenID, cbFunction=()=>{}) {
     const request = window.currentContract.methods.safeTransferFrom(sender, receiver, tokenID).encodeABI()
-    callContractFunction(request, window.contractAddress)
+    callContractFunction_sol(request, window.contractAddress)
 }

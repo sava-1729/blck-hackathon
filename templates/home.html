@@ -78,17 +78,19 @@
 		tar.removeAttribute("class");
 });
 </script>
+
 <script type="text/javascript" src="https://unpkg.com/web3@1.2.8/dist/web3.min.js"></script>
 <script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.js"></script>
 <script src="https://unpkg.com/@solana/spl-token@0.1.8/lib/index.iife.js"></script>
+<script src="https://unpkg.com/@metaplex/js@4.12.0/lib/index.iife.min.js"></script>
+<script src="https://unpkg.com/moralis/dist/moralis.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="{{url_for('static', filename='scripts/solana-to-ethereum/setup.js')}}"></script>
+<script src="{{url_for('static', filename='scripts/solana-to-ethereum/load_tokens.js')}}"></script>
 <script src="{{url_for('static', filename='scripts/solana-to-ethereum/bridge.js')}}"></script>
-<script src="{{url_for('static', filename='scripts//solana-to-ethereum/load_tokens.js')}}"></script>
-
-<!-- <script src="https://cdn.jsdelivr.net/npm/@metaplex/js@4.12.0/lib/index.browser.esm.min.js"></script> -->
-<!-- <script src="https://cdn.jsdelivr.net/npm/@solana/spl-token@0.1.8/module.flow.js"></script>  -->
-<!-- <script src="https://cdn.jsdelivr.net/npm/@solana/spl-token@0.1.8/lib/index.cjs.min.js"></script> -->
-<!-- <script src="{{url_for('static', filename='scripts/metaplex-program-library/token-metadata/js/src/mpl-token-metadata.ts')}}"></script> -->
+<script src="{{url_for('static', filename='scripts/avalanche-to-ethereum/setup.js')}}"></script>
+<script src="{{url_for('static', filename='scripts/avalanche-to-ethereum/load_tokens.js')}}"></script>
+<script src="{{url_for('static', filename='scripts/avalanche-to-ethereum/bridge.js')}}"></script>
 
 <style>
 	body{
@@ -140,7 +142,7 @@
 	}
 </style>
 
-<body onload="setup();" >
+<body>
 	<div style="background-color:black;">
 	<div>
 	<h3 style="align-items: center;color:red; font-size:15; width: 40vw; margin-left: 30vw;padding-top: 2vh; padding-bottom: 1vh;">
@@ -153,23 +155,23 @@
 	</p>
 
 	<ul class="content__container__list">
-	  <li class="content__container__list__item">  Solana</li>
-	  <li class="content__container__list__item">   AVAX</li>
-	  <li class="content__container__list__item">  to</li>
-	  <li class="content__container__list__item">  Ethereum</li>
+		<li class="content__container__list__item">  Avalanche</li>
+		<li class="content__container__list__item">  Solana</li>
+		<li class="content__container__list__item">  to</li>
+		<li class="content__container__list__item">  Ethereum</li>
 	</ul>
 	</div>
 	</div>
 	<div align="center" style="position:  absolute;top:25vh; left:36vw;">
 
 	<div class="dropdown show">
-	  <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #0492C2; width:25vw">
+	  <a class="btn btn-secondary dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #0492C2; width:25vw">
 	    Choose Bridging Tokens
 	  </a>
 
 	  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-	    <a class="dropdown-item" href="#"><button style="background-color: transparent;font-size: 18px;" onclick="showSolanaWallets()">Solana → Ethereum</button></a>
-	    <a class="dropdown-item" href="#"><button style="background-color: transparent;font-size: 18px;" onclick="showAVAXWallets()">AVAX → Ethereum</button></a>
+	    <a class="dropdown-item"><button style="background-color: transparent;font-size: 18px;" onclick="location.href='solana-to-ethereum'">Solana → Ethereum</button></a>
+	    <a class="dropdown-item"><button style="background-color: transparent;font-size: 18px;" onclick="location.href='avalanche-to-ethereum'">AVAX → Ethereum</button></a>
 	  </div>
 	</div>
 	<div>
@@ -193,20 +195,22 @@
 			<div class="loader-text"></div>
 		</div>
 		<br><br>
-		<div style="position: relative; margin-top:10vh">
+		<!-- <div style="position: relative; margin-top:10vh">
 		<font class="t" style="font-size: 2vh;">Select token:</font> &nbsp;
 		<select type="url" id="oldToken" onchange="updateImage()" disabled></select> &nbsp; &nbsp;
 		<button class="btn" onclick="viewToken()" id="viewButton" disabled>View Token Details</button>
 		<div id="bridge" style="display: flex;margin: auto; margin-left:9vw; margin-top:3vh">
-		<!-- <button type=""  disabled> -->
-			<input onclick="bridgeToken()" id="bridgeButton" class="pristine" type="checkbox" name="toggle" value="on"> 
+		
+			<span onclick="bridgeToken()">
+			<input id="bridgeButton" class="pristine" type="checkbox" name="toggle" value="on"> 
 			<h3 style="margin-left:5px; padding-bottom: 10px;color: whitesmoke;">Bridge</h3>
-		<!-- </button> -->
+			</span>
+		
 		</div>
 		</div>
 		<div>
 			<img src="" style="width: 200px;height: 200px;" id="tokenImg" hidden>
-		</div>
+		</div> -->
 		
 		<button class="btn" onclick='showETHTokenInput()'>View ETH Token Details</button>
 		<div id="ETHDetails" style="display: none;">
