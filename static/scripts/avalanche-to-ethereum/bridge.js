@@ -65,8 +65,8 @@ async function burnAvaToken(tokenID, cbFunction=()=>{}) {
         console.log(err)
         return false;
     }
-    const request = window.currentContract_S2H.methods.burn(tokenID).encodeABI()
-    return (await callContractFunction_ava(request, window.contractAddress_S2H, window.web3_avalanche, "burn"))
+    const request = window.userContract.methods.burn(tokenID).encodeABI()
+    return (await callContractFunction_ava(request, window.userContractAddress, window.web3_avalanche, "burn"))
 };
 
 async function bridgeToken1(cbFunction=()=>{}) {
