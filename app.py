@@ -39,27 +39,27 @@ def get_contract_address():
     global CONTRACT_ADDRESS
     return jsonify(CONTRACT_ADDRESS)
 
-@app.route("/get_metadata/<pub_key>", methods = ["GET"])
-def get_meta_data(pub_key):
-    @after_this_request
-    def add_header(response):
-        response.headers.add("Access-Control-Allow-Origin", "*")
-        return response
+# @app.route("/get_metadata/<pub_key>", methods = ["GET"])
+# def get_meta_data(pub_key):
+#     @after_this_request
+#     def add_header(response):
+#         response.headers.add("Access-Control-Allow-Origin", "*")
+#         return response
 
-    headers = {
-    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'
-    }
+#     headers = {
+#     'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'
+#     }
 
-    params = {
-        'address': pub_key
-    }
+#     params = {
+#         'address': pub_key
+#     }
 
-    response = requests.get('http://api.devnet.solscan.io/account', headers=headers, params=params)
+#     response = requests.get('http://api.devnet.solscan.io/account', headers=headers, params=params)
 
-    print("Hello!!!!")
-    print(response.content.decode())
-    print("Hello!!!!")
-    return jsonify(response.content.decode())
+#     print("Hello!!!!")
+#     print(response.content.decode())
+#     print("Hello!!!!")
+#     return jsonify(response.content.decode())
 
 @app.route("/blockchainapi/<pub_key>", methods = ["GET"])
 def get_theblockchainapi(pub_key):
